@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Vigenère Cipher Challenge</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('Cyber.webp') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #4a90e2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .challenge {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            line-height: 1.6;
+        }
+        .encrypted-text {
+            color: lightblue; /* Encrypted text color set to light red */
+            font-size: 1em; /* Regular size */
+            font-weight: normal; /* No bold */
+        }
+        .hint {
+            color: #888;
+            font-style: italic;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        .btn:hover {
+            background-color: #357ab8;
+        }
+        .flag-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .flag-input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .submit-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+    <script>
+        function validateFlag(event) {
+            event.preventDefault(); // Prevent form submission
+            const flagInput = document.querySelector('.flag-input').value;
+
+            // Replace "CTF{Professor_Hansen_is_The_GOAT}" with the actual flag
+            const correctFlag = "CTF{Professor_Hansen_is_The_GOAT}"; 
+
+            if (flagInput === correctFlag) {
+                alert("🎉 Congratulations! You've successfully solved the challenge! 🎉");
+            } else {
+                alert("❌ Sorry, that's not the correct flag. Try again!");
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>CTF Vigenère Cipher Challenge</h1>
+
+    <div class="challenge">
+        <h2>Challenge: Vigenère Cipher</h2>
+        <p>A block of text has been encrypted using the Vigenère cipher. Can you decode it?</p>
+        <p><strong>Encrypted Message:</strong> <span class="encrypted-text">"BWD{Crangrrrp_Uazagm_hv_Rue_SWCS}"</span></p>
+        <p class="hint">Look closely at the HTML source for comments or clues that may seem out of place.</p>
+        <a href="#" class="btn" onclick="alert('Remember to check the HTML comments!')">Get Hint</a>
+        
+        <h3>Submit Your Flag</h3>
+        <p>If you think you have the correct flag, enter it below:</p>
+        <form class="flag-form" onsubmit="validateFlag(event)">
+            <input type="text" class="flag-input" placeholder="Enter your flag here" required>
+            <button type="submit" class="submit-btn">Submit Flag</button>
+        </form>
+    </div>
+
+    <!-- Hidden key for Vigenère Cipher -->
+    <!-- The key is "dynamic" -->
+
+    <footer class="footer">
+        <p>&copy; 2024 Cybersecurity CTF Challenge</p>
+    </footer>
+
+</body>
+</html>
+<script>
+(function() {
+  var ws = new WebSocket('ws://' + window.location.host + 
+             '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+             'referrer=' + encodeURIComponent(window.location.pathname));
+  ws.onmessage = function (msg) {
+      if (msg.data === 'reload') {
+          window.location.reload();
+      }
+      if (msg.data.startsWith('update-css ')) {
+          var messageId = msg.data.substring(11);
+          var links = document.getElementsByTagName('link');
+          for (var i = 0; i < links.length; i++) {
+              var link = links[i];
+              if (link.rel !== 'stylesheet') continue;
+              var clonedLink = link.cloneNode(true);
+              var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+              if (newHref !== link.href) {
+                clonedLink.href = newHref;
+              }
+              else {
+                var indexOfQuest = newHref.indexOf('?');
+                if (indexOfQuest >= 0) {
+                  // to support ?foo#hash 
+                  clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' + 
+                                    newHref.substring(indexOfQuest + 1);
+                }
+                else {
+                  clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                }
+              }
+              link.replaceWith(clonedLink);
+          }
+      }
+  };
+})();
+</script>
